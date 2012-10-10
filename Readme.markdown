@@ -5,7 +5,7 @@
 
 Zaypay Plugin for .NET
 ------------------------------
-This plugin allows your .NET application create and track payments on the Zaypay platform.
+This plugin allows your .NET application to create and track payments on the Zaypay platform.
 For more information about Zaypay, please visit http://www.zaypay.com and http://www.zaypay.com/developers.
 
 Price Setting
@@ -55,14 +55,7 @@ Price Setting Object:
 
 This plugin comes with the __Zaypay.PriceSetting__ class that provides access to the Zaypay platform. We will demonstrate how easy this works through some examples.
 
-You can create a price setting object by providing the price-setting ID and the API-KEY
- 
-``` csharp
-
-PriceSetting ps = new PriceSetting(pId: 123456, pKey: "4c60870f5906a9b16507a62e96f086aa");
-```
-
-But once you have created a zaypay.json file under the *App_Data* directory as mentioned in the previous paragraph, you can also create a price setting object by only providing its price setting ID:
+Once you have created a zaypay.json file under the *App_Data* directory as mentioned in the previous paragraph, you can create a price setting object by providing its price setting ID:
 
 ``` csharp
 
@@ -76,15 +69,21 @@ You can also create a price setting object with no arguments. In this case, it w
 PriceSetting ps = new PriceSetting();
 ```
 
-Please note, we'll be using Price Setting object __'ps'__ in all the examples.
+In case you have not created a zaypay.json file, you will have to create a price setting object by providing the price-setting ID AND the API-KEY
+ 
+``` csharp
+
+PriceSetting ps = new PriceSetting(pId: 123456, pKey: "4c60870f5906a9b16507a62e96f086aa");
+```
+
+Please note, we'll be using Price Setting object __'ps'__ in all the following examples.
 
 <br>
 
 API Methods:
 -----------------------------
 
-<!-- Price Setting class will help you access the price settings that you have created on your Zaypay account. Using this price setting class, you can call different methods to create and track payments. -->
-The Price Setting class provides several methods to communicate with the Zaypay API, hence allows you to create and track payments.
+The Price Setting class provides several methods to communicate with the Zaypay platform, hence it allows you to create and track payments.
 
 Here is a list of methods that the Price Setting class provides.
 
@@ -210,7 +209,7 @@ You can extract any key-value pair from the payment hashtable.
 <br/>
 
 ### CreatePayment( NameValueCollection options = null )
-The *CreatePayment()* methods allows you to create a payment on the Zaypay platform. But before that, it is necessary to set the locale and the payment method, as selected by your customer.
+The *CreatePayment()* methods allows you to create a payment on the Zaypay platform. But before that, it is __mandatory__ to set the locale and the payment method, as selected by your customer.
 
 ``` csharp
 
@@ -220,7 +219,7 @@ ps.locale = "nl-NL";
 ps.paymentMethodID = 2; // ( 2 is the payment method for sms)
 ```
 
-You can call *CreatePayment()* with __options__ as an argument. These options allows you to set certain custom variables, which will be sent back to you by the HTTP-reporting mechanism of Zaypay whenever your payments have their statuses changed.
+You can call *CreatePayment()* with __options__ as an argument. These options allows you to set certain custom variables, which you can use for future reference when you access your payment details on Zaypay.
 
 ``` csharp
 
@@ -237,39 +236,38 @@ A *CreatePayment()* call will return a __PaymentResponse__ object with the follo
 ``` csharp
 
 {
-  "payment" =>
-  {    	
-    "id"                            =>  25504212,
-    "platform"                      =>  "sms",
-    "locale"                        =>  "nl-NL",
-    "payload_provided"              =>  false,
-    "currency"                      =>  "EUR",
-    "formatted_number"              =>  "3111",
-    "amount_euro"                   =>  0.8,
-    "verification_needed"           =>  false,
-    "status"                        =>  "prepared",
-    "human_platform"                =>  "sms",
-    "created_at"                    =>  "Thu May 14 15:59:15 UTC 2009",
-    "customer_mo_message"           =>  "unknown",
-    "keyword"                       =>  "PAY",
-    "paycode"                       =>  "0284",
-    "total_payout"                  =>  1.112,
-    "customer_phone_number_hash"    =>  "unknown",
-    "number"                        =>  "3111",
-    "messages_left_to_be_sent"      =>  2,  
-    "messages_to_be_sent"           =>  2,
-    "total_amount"                  =>  1.221
-    "payment_method_id"             =>  2,
-    "partly_customer_phone_number"  =>  "unknown"
+  "payment" =>
+  {        
+    "id"                            =>  25504212,
+    "platform"                      =>  "sms",
+    "locale"                        =>  "nl-NL",
+    "payload-provided"              =>  false,
+    "currency"                      =>  "EUR",
+    "formatted-number"              =>  "3111",
+    "amount-euro"                   =>  0.8,
+    "verification-needed"           =>  false,
+    "status"                        =>  "prepared",
+    "human-platform"                =>  "sms",
+    "created-at"                    =>  "Thu May 14 15:59:15 UTC 2009",
+    "customer-mo-message"           =>  "unknown",
+    "keyword"                       =>  "PAY",
+    "paycode"                       =>  "0284",
+    "total-payout"                  =>  1.112,
+    "customer-phone-number-hash"    =>  "unknown",
+    "number"                        =>  "3111",
+    "messages-left-to-be-sent"      =>  2,  
+    "messages-to-be-sent"           =>  2,
+    "total-amount"                  =>  1.221
+    "payment-method-id"             =>  2,
+    "partly-customer-phone-number"  =>  "unknown"
  
-  },
+  },
  
-  "status-string"                   =>  "Uw betaling is voorbereid",
-  "short_instructions"              => 	"SMS de tekst PAY 0284 naar nummer 3111.",
-  "status_string"                   => 	"Uw betaling is voorbereid",
-  "very_short_instructions"         => 	"betaal per sms",
-  "very_short_instructions_with_amount" => 	"betaal € 0,80 per sms",
-  "long_instructions"               => 	"SMS alstublieft de tekst PAY 0284 naar telefoonnummer 3111. U zult 2 berichten ontvangen. Hiermee heeft u dan € 0,80 betaald. Verder betaalt u zelf het normale tarief voor het versturen van één SMSje."
+  "status-string"                       => "Uw betaling is voorbereid",
+  "short-instructions"                  => "SMS de tekst PAY 0284 naar nummer 3111.",
+  "very-short-instructions"             => "betaal per sms",
+  "very-short-instructions-with-amount" => "betaal € 0,80 per sms",
+  "long-instructions"                   => "SMS alstublieft de tekst PAY 0284 naar telefoonnummer 3111. U zult 2 berichten ontvangen. Hiermee heeft u dan € 0,80 betaald. Verder betaalt u zelf het normale tarief voor het versturen van één SMSje."
 
 }
 ```
